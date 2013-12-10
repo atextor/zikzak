@@ -8,7 +8,7 @@
  *   Parse the commandline, instantiate all systems (graphics, sound, input
  *   and so on) and start the main game loop.
  */
- 
+
 #include <iostream>
 #include <cstring>
 #include "Graphics.h"
@@ -33,7 +33,7 @@ void displayHelp() {
 }
 
 int main(int argc, char* argv[]) {
-	bool fullscreen = true;
+	bool fullscreen = false;
 	bool music = true;
 	int xres = 800;
 	int yres = 600;
@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
 	// the config settings
 	Config c;
 	c.load(music, fullscreen, xres, yres, lastlevel);
-	
+
 	// check commandline
 	for(int i = 0; i < argc; i++) {
 		if(strcmp(argv[i], "-f") == 0)
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
 		if(strcmp(argv[i], "-nm") == 0)
 			music = false;
 	}
-	
+
 	// run game
 	bool running = true;
 
@@ -82,25 +82,25 @@ int main(int argc, char* argv[]) {
 	Input i;
 	Level l;
 	Gamestate gs;
-		
+
 	int status = g.init(xres, yres, fullscreen);
 	if(status != 0)
 		return status;
-		
+
 	Player player1(1.0, -1.0, 1.0, 0.0, 60.0);
-	
+
 	if(l.load(0) != 0) {
 		return 1;
 	}
-	
+
 	status = s.init(music);
 	if(music)
 		s.playMusic();
-	
+
 	gs.resetTimer();
 	gs.setOperationState(TITLE);
 	SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
-	
+
 	while(running) {
 		g.renderscene(l, player1, s, gs);
 		if(i.poll(player1, s, gs, l)) {
@@ -129,7 +129,7 @@ int main(int argc, char* argv[]) {
 		} else {
 			running = false;
 		}
-		
+
 		if(l.getLevelNumber() == 0 || !player1.isMoving()) {
 			gs.resetTimer();
 		} else {
@@ -143,13 +143,13 @@ int main(int argc, char* argv[]) {
 				player1.clearBullets();
 				gs.setOperationState(GAMEOVER);
 			}
-		}		
+		}
 		gs.loopDelay();
 	}
 
 	//c.save(music, fullscreen, xres, yres, lastlevel-1);
 	s.cleanUp();
 	g.cleanUp();
-	
+
 	return 0;
 }
