@@ -41,25 +41,27 @@ bool Bullet::inWallCollision(Level &l, Coord3d c, Sound &s) {
 		s.playSound(S_SWITCH);
 		return false;
 	}
-	
+
 	return true;
 }
 
 bool Bullet::isAlive() {
 	timeToLive--;
-	return timeToLive > 0;	
+	return timeToLive > 0;
 }
 
 void Bullet::render(Level &l, Sound &s) {
+	(void)l;
+	(void)s;
 	float xtr = (float)x;
 	float ytr = Level::getYSize()-(float)y;
 	float ztr = Level::getZSize()-(float)z;
 	GLfloat sz = 0.4f;
 	GLfloat ss = 0.2f;
-	
+
 	glColor3f(1.0f, 1.0f, 1.0f);
 	glBegin(GL_QUADS);
-	
+
 	if(xmove == 0) {	// down or up
 		glNormal3f(0.0f, 1.0f, 0.0f);
 		glTexCoord2f(0.0f, 1.0f); glVertex3f(-ss+xtr,  ytr, -sz+ztr);
