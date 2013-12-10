@@ -1,5 +1,5 @@
 GCC=g++
-COMPILERFLAGS=-Wall -L/usr/X11R6/lib -L/usr/lib -I/usr/include -I/usr/include/SDL -O0 -fmessage-length=0 `sdl-config --cflags`
+COMPILERFLAGS=-Wall -Wextra -L/usr/X11R6/lib -L/usr/lib -I/usr/include -I/usr/include/SDL -O0 -fmessage-length=0 `sdl-config --cflags`
 LINKERFLAGS=`sdl-config --libs` -lGL -lGLU -lSDL_mixer 
 OBJS=Config.o Bullet.o Dynent.o Gamestate.o Graphics.o Input.o Level.o Main.o Player.o Sound.o Coord3d.o
 BINARY=zikzak
@@ -10,7 +10,7 @@ default: all
 	$(GCC) $(COMPILERFLAGS) -c -o $@ $<
 
 all: $(OBJS)
-	$(GCC) $(LINKERFLAGS) -o $(BINARY) $(OBJS)
+	$(GCC) -o $(BINARY) $(OBJS) $(LINKERFLAGS)
 
 clean:
 	-rm -f $(OBJS) $(BINARY)
